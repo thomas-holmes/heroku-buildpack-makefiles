@@ -3,13 +3,11 @@
 
 
 if [[ -f $1/.makefiles ]]; then
-    echo "Found $1/.makefiles list"
-elif
-    makefiles=$(find . -type f -name Makefile)
-
-    if [[ -n "$makefiles" ]]; then
-        echo "Found Makefiles\n${makefiles}"
-    fi
+    echo "Makefiles1"
+    exit 0
+elif [[ -z $(find . -type f -name Makefile) ]]; then
+    echo "Makefiles2"
+    exit 0
 else
-    echo "No .makefiles listing or Makefiles found"
+    exit 1
 fi

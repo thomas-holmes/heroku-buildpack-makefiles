@@ -26,17 +26,17 @@ cd $BUILD_DIR
 # make
 
 if [[ -f .makefiles ]]; then
-    makefiles=$(cat $1/.makefiles)
+    makefiles=$(cat .makefiles)
 else
-    makefiles=$(find . -type f Makefile)
+    makefiles=$(find . -type f -name Makefile)
 fi
 
-echo "-----> Compiling with Make"
 for makefile in ${makefiles}; do
-    pushd $(dirname $makefile)
+    makefiledir=$(dirname $makefile)
+    echo "-----> Compiling $makefile" | indent
 
-    echo "-----> Compiling $makefile with Make"
-    make 2>&1 | indent
+    pushd "$makefiledir"
+    make 2>&1 | indent | indent
 
     popd
 done
