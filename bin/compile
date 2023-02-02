@@ -18,11 +18,25 @@ function indent() {
 cd $BUILD_DIR
 
 # configure
-if [ -f configure ]; then
-  echo "-----> Configuring"
-  ./configure 2>&1 | indent
-fi
+# if [ -f configure ]; then
+#   echo "-----> Configuring"
+#   ./configure 2>&1 | indent
+# fi
 
 # make
+
+if [[ -f .makefiles ]]; then
+    makefiles=$(cat $1/.makefiles)
+else
+    makefiles=$(find . -type f Makefile)
+fi
+
 echo "-----> Compiling with Make"
-make 2>&1 | indent
+for makefile in ${makefiles}; do
+    pushd $(dirname $makefile)
+
+    echo "-----> Compiling $makefile with Make"
+    make 2>&1 | indent
+
+    popd
+done
